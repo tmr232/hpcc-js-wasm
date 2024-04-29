@@ -34,6 +34,7 @@ describe("graphviz", function () {
         let v = graphviz.version();
         expect(v).to.be.a.string;
         expect(v).to.not.be.empty;
+        console.log("graphviz version: " + v);
         Graphviz.unload();
 
         graphviz = await Graphviz.load();

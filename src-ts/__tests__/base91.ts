@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { Base91 } from "@hpcc-js/wasm/base91";
 import { Zstd } from "@hpcc-js/wasm/zstd";
+import { Console } from "node:console";
 
 describe("base91", function () {
 
@@ -10,6 +11,7 @@ describe("base91", function () {
         let v = base91.version();
         expect(v).to.be.a.string;
         expect(v).to.not.be.empty;
+        console.log("base91 version: " + v);
         Base91.unload();
 
         base91 = await Base91.load();
