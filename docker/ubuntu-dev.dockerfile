@@ -23,16 +23,20 @@ RUN apt-get install -y nodejs
 # Set the working directory
 WORKDIR /usr/src-ts/app
 
-COPY ./*.* .
+COPY ./scripts ./scripts
+RUN ./scripts/cpp-install-emsdk.sh
+
+COPY ./vcpkg-overlays ./vcpkg-overlays
+COPY ./vcpkg-configuration.json ./vcpkg-configuration.json
+COPY ./vcpkg.json ./vcpkg.json
+RUN ./scripts/cpp-install-vcpkg.sh
+
+COPY ./package*.json .
 RUN npm ci
 
-COPY ./scripts ./scripts
-COPY ./vcpkg-overlays ./vcpkg-overlays
-RUN npm run install-build-deps
-
+COPY ./src-asm ./src-asm
 COPY ./src-cpp ./src-cpp
 COPY ./src-ts ./src-ts
 COPY ./utils ./utils
-RUN npm run build
 
 CMD ["npm", "run", "test-node"]

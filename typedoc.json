@@ -1,6 +1,7 @@
 {
     "entryPoints": [
         "./src-ts/base91.ts",
+        "./src-ts/duckdb.ts",
         "./src-ts/expat.ts",
         "./src-ts/graphviz.ts",
         "./src-ts/wasm-library.ts",

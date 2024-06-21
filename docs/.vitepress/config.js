@@ -35,6 +35,7 @@ export default {
                 text: 'WASM API',
                 items: [
                     { text: 'Base91', link: '/classes/base91.Base91' },
+                    { text: 'DuckDB', link: '/classes/duckdb.DuckDB' },
                     { text: 'Expat', link: '/classes/expat.Expat' },
                     { text: 'Graphviz', link: '/classes/graphviz.Graphviz' },
                     { text: 'Zstd', link: '/classes/zstd.Zstd' },
