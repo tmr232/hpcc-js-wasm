@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.17.0](https://github.com/hpcc-systems/hpcc-js-wasm/compare/v2.16.2...v2.17.0) (2024-06-25)
+
+
+### Features
+
+* Add DuckDB Support ([005adf6](https://github.com/hpcc-systems/hpcc-js-wasm/commit/005adf6fc8785eaf5e466caaca0921af5ffe97db))
+
 ### [2.16.2](https://github.com/hpcc-systems/hpcc-js-wasm/compare/v2.16.1...v2.16.2) (2024-04-29)
 
 ### [2.16.1](https://github.com/hpcc-systems/hpcc-js-wasm/compare/v2.16.0...v2.16.1) (2024-03-28)
