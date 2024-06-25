@@ -87,14 +87,14 @@
             ],
         },
         {
-            "name": "cli rollup wasm",
-            "program": "${workspaceFolder}/output-node/test-wasm.js",
+            "name": "esbuild",
+            "type": "node",
+            "program": "${workspaceFolder}/esbuild.mjs",
             "request": "launch",
             "args": [],
             "skipFiles": [
                 "<node_internals>/**"
-            ],
-            "type": "node"
+            ]
         },
         {
             "name": "CLI",

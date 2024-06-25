@@ -1,7 +1,9 @@
 import { readFile } from "fs/promises";
+import * as path from "path";
+import * as process from "process";
 import fs from "fs";
 import yargs from "yargs";
-import { hideBin } from 'yargs/helpers'
+import { hideBin } from "yargs/helpers";
 import zstdlib from "../build/src-cpp/zstd/zstdlib.js";
 import base91lib from "../build/src-cpp/base91/base91lib.js";
 
@@ -76,7 +78,7 @@ export class Base91 extends WasmLibrary {
     static load() {
         if (!g_base91) {
             g_base91 = loadWasm(base91lib, "./build/src-cpp/base91/base91lib.wasm").then(module => {
-                return new Base91(module)
+                return new Base91(module);
             });
         }
         return g_base91;
@@ -129,7 +131,7 @@ export class Zstd extends WasmLibrary {
     static load() {
         if (!g_zstd) {
             g_zstd = loadWasm(zstdlib, "./build/src-cpp/zstd/zstdlib.wasm").then(module => {
-                return new Zstd(module)
+                return new Zstd(module);
             });
         }
         return g_zstd;
@@ -197,6 +199,11 @@ myYargs
         describe: "Debug build",
         boolean: true
     })
+    .option("nw", {
+        alias: "no wrapper",
+        describe: "Skip import of JS wrapper",
+        boolean: true
+    })
     .help("h")
     .alias("h", "help")
     .epilog("https://github.com/hpcc-systems/hpcc-js-wasm")
@@ -205,14 +212,14 @@ myYargs
 const argv = await myYargs.argv;
 
 try {
-    const wasmPath = argv._[0];
+    const wasmPath = path.relative(process.cwd(), argv._[0]);
     let wasmContent;
     if (fs.existsSync(wasmPath)) {
         wasmContent = fs.readFileSync(wasmPath);
     }
     if (wasmContent) {
         const zstd = await Zstd.load();
-        const compressed = zstd.compress(new Uint8Array(wasmContent))
+        const compressed = zstd.compress(new Uint8Array(wasmContent));
         const base91 = await Base91.load();
         const str = base91.encode(compressed);
         const debugMap = `\
@@ -235,9 +242,24 @@ try {
     return scriptDirectory + path;
 }
 `;
-        const content = `\
+        const content = argv.nw ? `\
 import { extract } from "./extract.js";
-import wrapper from "${wasmPath.replace(".wasm", ".js")}";
+
+const blobStr = '${str}';
+
+let g_wasmBinary;
+export function loadWasm() {
+    if (!g_wasmBinary) {
+        g_wasmBinary = extract(blobStr);
+    }
+    return g_wasmBinary;
+}
+
+export function unloadWasm() {
+}
+`: `\
+import { extract } from "./extract.js";
+import wrapper from "../${wasmPath.replace(".wasm", ".js")}";
 
 const blobStr = '${str}';
 
@@ -249,7 +271,7 @@ export function loadWasm() {
     }
     if (!g_module) {
         g_module = wrapper({
-            ${argv.d ? `` : ``}
+            ${argv.d ? "" : ""}
             wasmBinary: ${argv.d ? "undefined" : "g_wasmBinary"},
             locateFile: ${argv.d ? debugMap : "undefined"}
         });
@@ -269,7 +291,7 @@ export function unloadWasm() {
             console.log(content);
         }
     } else {
-        throw new Error("'filePath' is required.")
+        throw new Error("'filePath' is required.");
     }
 } catch (e) {
     console.error(`Error:  ${e?.message} \n`);

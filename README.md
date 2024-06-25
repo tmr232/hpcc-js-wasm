@@ -7,6 +7,7 @@
 
 This repository contains a collection of useful c++ libraries compiled to WASM for (re)use in Node JS, Web Browsers and JavaScript Libraries:
 - [base91](https://base91.sourceforge.net/) - v0.6.0
+- [duckdb](https://github.com/duckdb/duckdb-wasm) - v1.28.1-dev106.0
 - [expat](https://libexpat.github.io/) - v2.6.2
 - [graphviz](https://www.graphviz.org/) - v11.0.0
 - [zstd](https://github.com/facebook/zstd) - v1.5.5
@@ -19,6 +20,7 @@ Built with:
 
 * [Homepage](https://hpcc-systems.github.io/hpcc-js-wasm/)
     * [Base91](https://hpcc-systems.github.io/hpcc-js-wasm/classes/base91.Base91.html)
+    * [DuckDB](https://hpcc-systems.github.io/hpcc-js-wasm/classes/duckdb.DuckDB.html)
     * [Expat](https://hpcc-systems.github.io/hpcc-js-wasm/classes/expat.Expat.html)
     * [Graphviz](https://hpcc-systems.github.io/hpcc-js-wasm/classes/graphviz.Graphviz.html)
     * [Zstd](https://hpcc-systems.github.io/hpcc-js-wasm/classes/zstd.Zstd.html)

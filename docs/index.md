@@ -26,6 +26,9 @@ features:
   - title: Base 91
     details: Similar to Base 64 but uses more characters resulting in smaller strings.
     link: /classes/base91.Base91
+  - title: DuckDB
+    details: DuckDB - a fast in-process analytical database.
+    link: /classes/duckdb.DuckDB
   - title: Expat
     details: A popular stream-oriented XML parser library.
     link: /classes/expat.Expat
