@@ -23,4 +23,3 @@ export namespace Zstd {
         return import("./zstd.js").then(mod => mod.Zstd.load());
     }
 }
-export type * from "@duckdb/duckdb-wasm";

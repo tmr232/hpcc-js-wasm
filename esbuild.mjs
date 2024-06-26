@@ -1,5 +1,6 @@
 import * as process from "process";
 import * as esbuild from "esbuild";
+import { readFileSync } from "fs";
 import { umdWrapper } from "esbuild-plugin-umd-wrapper";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
@@ -25,11 +26,29 @@ myYargs
     ;
 const argv = await myYargs.argv;
 
+const excludeSourceMapPlugin = ({ filter }) => ({
+    name: 'excludeSourceMapPlugin',
+    setup(build) {
+        build.onLoad({ filter }, (args) => {
+            return {
+                contents:
+                    readFileSync(args.path, 'utf8') +
+                    '\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiJdLCJtYXBwaW5ncyI6IkEifQ==',
+                loader: 'default',
+            };
+        });
+    },
+});
+
 function build(config) {
     argv.debug && console.log("Start:  ", config.entryPoints[0], config.outfile);
     return esbuild.build({
         ...config,
-        sourcemap: true
+        sourcemap: "linked",
+        plugins: [
+            ...config.plugins ?? [],
+            excludeSourceMapPlugin({ filter: /node_modules/ }),
+        ]
     }).then(() => {
         argv.debug && console.log("Stop:   ", config.entryPoints[0], config.outfile);
     });
@@ -38,15 +57,19 @@ function build(config) {
 function watch(config) {
     return esbuild.context({
         ...config,
-        sourcemap: "external",
-        plugins: [...config.plugins ?? [], {
-            name: "rebuild-notify",
-            setup(build) {
-                build.onEnd(result => {
-                    console.log(`Built ${config.outfile}`);
-                });
-            },
-        }]
+        sourcemap: "linked",
+        plugins: [
+            ...config.plugins ?? [],
+            excludeSourceMapPlugin({ filter: /node_modules/ }),
+            {
+                name: "rebuild-notify",
+                setup(build) {
+                    build.onEnd(result => {
+                        console.log(`Built ${config.outfile}`);
+                    });
+                },
+            }
+        ]
     }).then(ctx => {
         return ctx.watch();
     });
