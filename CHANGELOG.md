@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.17.1](https://github.com/hpcc-systems/hpcc-js-wasm/compare/v2.17.0...v2.17.1) (2024-06-26)
+
+
+### Bug Fixes
+
+*  Exclude sourcemaps from node_modules ([a7772b3](https://github.com/hpcc-systems/hpcc-js-wasm/commit/a7772b37befdc534893d3c80d0f0d2066230474d))
+*  vitepress failing to build docs ([d179a54](https://github.com/hpcc-systems/hpcc-js-wasm/commit/d179a548c2cbdc059774797cdd0ce8fa11ff1fdd))
+
 ## [2.17.0](https://github.com/hpcc-systems/hpcc-js-wasm/compare/v2.16.2...v2.17.0) (2024-06-25)
 
 
