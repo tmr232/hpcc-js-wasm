@@ -36,7 +36,7 @@ export default {
                 items: [
                     { text: 'Base91', link: '/base91/classes/Base91' },
                     { text: 'DuckDB', link: '/duckdb/classes/DuckDB' },
-                    { text: 'Expat', link: '/expatclasses/Expat' },
+                    { text: 'Expat', link: '/expat/classes/Expat' },
                     { text: 'Graphviz', link: '/graphviz/classes/Graphviz' },
                     { text: 'Zstd', link: '/zstd/classes/Zstd' },
                 ]
