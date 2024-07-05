@@ -25,17 +25,17 @@ hero:
 features:
   - title: Base 91
     details: Similar to Base 64 but uses more characters resulting in smaller strings.
-    link: /classes/base91.Base91
+    link: /base91/classes/Base91
   - title: DuckDB
     details: DuckDB - a fast in-process analytical database.
-    link: /classes/duckdb.DuckDB
+    link: /duckdb/classes/DuckDB
   - title: Expat
     details: A popular stream-oriented XML parser library.
-    link: /classes/expat.Expat
+    link: /expat/classes/Expat
   - title: GraphViz
     details: The Graphviz layout algorithms take descriptions of graphs in a simple text language, and make diagrams in useful formats, such as images and SVG for web pages or display in an interactive graph browser.
-    link: /classes/graphviz.Graphviz
+    link: /graphviz/classes/Graphviz
   - title: Zstd
     details:  Zstandard is a fast compression algorithm, providing high compression ratios and is backed by an extremely fast decoder.
-    link: /classes/zstd.Zstd
+    link: /zstd/classes/Zstd
 ---

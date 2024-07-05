@@ -19,11 +19,11 @@ Built with:
 ## Homepage and Documents
 
 * [Homepage](https://hpcc-systems.github.io/hpcc-js-wasm/)
-    * [Base91](https://hpcc-systems.github.io/hpcc-js-wasm/classes/base91.Base91.html)
-    * [DuckDB](https://hpcc-systems.github.io/hpcc-js-wasm/classes/duckdb.DuckDB.html)
-    * [Expat](https://hpcc-systems.github.io/hpcc-js-wasm/classes/expat.Expat.html)
-    * [Graphviz](https://hpcc-systems.github.io/hpcc-js-wasm/classes/graphviz.Graphviz.html)
-    * [Zstd](https://hpcc-systems.github.io/hpcc-js-wasm/classes/zstd.Zstd.html)
+    * [Base91](https://hpcc-systems.github.io/hpcc-js-wasm/base91/classes/Base91.html)
+    * [DuckDB](https://hpcc-systems.github.io/hpcc-js-wasm/duckdb/classes/DuckDB.html)
+    * [Expat](https://hpcc-systems.github.io/hpcc-js-wasm/expat/classes/Expat.html)
+    * [Graphviz](https://hpcc-systems.github.io/hpcc-js-wasm/graphviz/classes/Graphviz.html)
+    * [Zstd](https://hpcc-systems.github.io/hpcc-js-wasm/zstd/classes/Zstd.html)
 
 ## Quick Start
 
