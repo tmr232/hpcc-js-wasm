@@ -6,7 +6,7 @@ describe("zstd", function () {
         let zstd = await Zstd.load();
         let v = zstd.version();
         expect(v).to.be.a.string;
-        expect(v).to.not.be.empty;
+        expect(v).to.equal("1.5.6");
         console.log("zstd version: " + v);
 
         zstd = await Zstd.load();

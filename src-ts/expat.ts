@@ -1,5 +1,5 @@
 // @ts-ignore
-import { loadWasm, unloadWasm } from "./expatlib.wasm.js";
+import { loadWasm, unloadWasm } from "../build/expatlib.wasm.js";
 
 export type Attributes = { [key: string]: string };
 export interface IParser {

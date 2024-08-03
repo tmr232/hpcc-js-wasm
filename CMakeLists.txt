@@ -81,8 +81,7 @@ endif ()
 
 function(packWasm targetID)
     add_custom_target(sfx-${targetID} ALL
-        COMMAND cmake -E make_directory ${REPO_DIR}/lib-esm
-        COMMAND node ./utils/sfx-wasm.js ${PACK_MODE} ${CMAKE_CURRENT_BINARY_DIR}/${targetID}.wasm > ${REPO_DIR}/lib-esm/${targetID}.wasm.js
+        COMMAND node ./utils/sfx-wasm.js ${PACK_MODE} ${CMAKE_CURRENT_BINARY_DIR}/${targetID}.wasm > ${REPO_DIR}/build/${targetID}.wasm.js
         WORKING_DIRECTORY ${REPO_DIR}
         COMMENT "SFX Wasm ${targetID}"
     ) 
