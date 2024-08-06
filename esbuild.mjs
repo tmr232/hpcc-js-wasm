@@ -1,7 +1,6 @@
 import * as process from "process";
 import { readFileSync } from "fs";
 import * as esbuild from "esbuild";
-import { umdWrapper } from "esbuild-plugin-umd-wrapper";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
@@ -121,15 +120,14 @@ function browserTpl(input, output, format, globalName = "", external = []) {
         globalName,
         bundle: true,
         minify: isProduction,
-        external,
-        plugins: format === "umd" ? [umdWrapper()] : []
+        external
     });
 }
 
 function browserBoth(input, output, globalName = undefined, external = []) {
     return Promise.all([
         browserTpl(input, output, "esm", globalName, external),
-        browserTpl(input, output, "umd", globalName, external)
+        browserTpl(input, output, "iife", globalName, external)
     ]);
 }
 
@@ -162,16 +160,16 @@ function bothTpl(input, output, globalName = undefined, external = []) {
 
 //  config  ---
 await Promise.all([
-    bothTpl("src-ts/base91.ts", "dist/base91", "hpccjs_wasm_base91"),
-    bothTpl("src-ts/duckdb.ts", "dist/duckdb", "hpccjs_wasm_duckdb"),
-    bothTpl("src-ts/graphviz.ts", "dist/graphviz", "hpccjs_wasm_graphviz"),
-    bothTpl("src-ts/expat.ts", "dist/expat", "hpccjs_wasm_expat"),
-    bothTpl("src-ts/zstd.ts", "dist/zstd", "hpccjs_wasm_zstd")
+    bothTpl("src-ts/base91.ts", "dist/base91", 'window["@hpcc-js/wasm"]'),
+    bothTpl("src-ts/duckdb.ts", "dist/duckdb", 'window["@hpcc-js/wasm"]'),
+    bothTpl("src-ts/graphviz.ts", "dist/graphviz", 'window["@hpcc-js/wasm"]'),
+    bothTpl("src-ts/expat.ts", "dist/expat", 'window["@hpcc-js/wasm"]'),
+    bothTpl("src-ts/zstd.ts", "dist/zstd", 'window["@hpcc-js/wasm"]')
 ]);
-await bothTpl("src-ts/index.ts", "dist/index", "hpccjs_wasm", ["./base91.js", "./duckdb.js", "./expat.js", "./graphviz.js", "./zstd.js"]);
+await bothTpl("src-ts/index.ts", "dist/index", 'window["@hpcc-js/wasm"]', ["./base91.js", "./duckdb.js", "./expat.js", "./graphviz.js", "./zstd.js"]);
 
-browserBoth("src-ts/__tests__/index-browser.ts", "dist-test/index", "hpccjs_wasm_test");
-browserBoth("src-ts/__tests__/worker-browser.ts", "dist-test/worker", "hpccjs_wasm_test_worker");
+browserBoth("src-ts/__tests__/index-browser.ts", "dist-test/index", 'window["@hpcc-js/wasm-test"]');
+browserBoth("src-ts/__tests__/worker-browser.ts", "dist-test/worker", 'window["@hpcc-js/wasm-test"]');
 nodeBoth("src-ts/__tests__/index-node.ts", "dist-test/index.node");
 nodeBoth("src-ts/__tests__/worker-node.ts", "dist-test/worker.node");
 
