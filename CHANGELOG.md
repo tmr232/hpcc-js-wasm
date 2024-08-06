@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.18.1](https://github.com/hpcc-systems/hpcc-js-wasm/compare/v2.18.0...v2.18.1) (2024-08-06)
+
+
+### Bug Fixes
+
+*  Documentaion contains invalid links ([65c3c4e](https://github.com/hpcc-systems/hpcc-js-wasm/commit/65c3c4e953d5ebc9f387715f80b11cdc455bdd10)), closes [#226](https://github.com/hpcc-systems/hpcc-js-wasm/issues/226)
+*  Documentaion contains invalid links ([225c175](https://github.com/hpcc-systems/hpcc-js-wasm/commit/225c1750acda45bf0d835ef9437f27f1114e6bf1)), closes [#226](https://github.com/hpcc-systems/hpcc-js-wasm/issues/226)
+*  Legacy browser loading fails (UMD) ([1a4388a](https://github.com/hpcc-systems/hpcc-js-wasm/commit/1a4388aaba18d6956c7b544238bacdb5b27226f3)), closes [#228](https://github.com/hpcc-systems/hpcc-js-wasm/issues/228)
+
 ## [2.18.0](https://github.com/hpcc-systems/hpcc-js-wasm/compare/v2.17.1...v2.18.0) (2024-07-05)
 
 
