@@ -4,8 +4,10 @@ import { DuckDB } from "@hpcc-js/wasm/duckdb";
 describe("duckdb", function () {
     it("version", async function () {
         const duckdb = await DuckDB.load();
-        console.log(duckdb.version());
-        expect(duckdb.version()).to.exist;
+        const v = duckdb.version();
+        expect(v).to.be.a.string;
+        expect(v).to.equal("v0.9.2");
+        console.log("duckdb version: " + v);
     });
 
     it("simple", async function () {
@@ -15,6 +17,7 @@ describe("duckdb", function () {
         const stmt = await conn.prepare("SELECT v + ? FROM generate_series(0, 10000) AS t(v);");
         await stmt.query(234);
         for await (const batch of await stmt.send(234)) {
+            expect(batch).to.exist;
         }
         await stmt.close();
         await conn.close();
@@ -32,7 +35,7 @@ describe("duckdb", function () {
         await c.insertJSONFromPath("rows.json", { name: "rows" });
 
         const arrowResult = await c.query("SELECT * FROM read_json_auto('rows.json')");
-        const result = arrowResult.toArray().map((row) => row.toJSON());
+        const result = arrowResult.toArray().map((row: any) => row.toJSON());
         expect(result.length).to.equal(data.length);
         for (let i = 0; i < result.length; i++) {
             expect(result[i].col2).to.equal(data[i].col2);

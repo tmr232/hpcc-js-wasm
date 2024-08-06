@@ -1,160 +1,178 @@
 import * as process from "process";
-import * as esbuild from "esbuild";
 import { readFileSync } from "fs";
+import * as esbuild from "esbuild";
 import { umdWrapper } from "esbuild-plugin-umd-wrapper";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
+const pkg = JSON.parse(readFileSync("./package.json", "utf8"));
+const NODE_MJS = pkg.type === "module" ? "js" : "mjs";
+const NODE_CJS = pkg.type === "module" ? "cjs" : "js";
+
 const myYargs = yargs(hideBin(process.argv));
 myYargs
-    .usage("Usage: esbuild [options]")
+    .usage("Usage: node esbuild.mjs [options]")
     .demandCommand(0, 0)
-    .example("sfx-wasm --watch", "Bundle and watch for changes")
-    .option("d", {
-        alias: "debug",
-        describe: "Debug build",
-        boolean: true
+    .example("node esbuild.mjs --watch", "Bundle and watch for changes")
+    .option("mode", {
+        alias: "m",
+        describe: "Build mode",
+        choices: ["development", "production"],
+        default: "production"
     })
     .option("w", {
         alias: "watch",
         describe: "Watch for changes",
-        boolean: true
+        type: "boolean"
     })
     .help("h")
     .alias("h", "help")
     .epilog("https://github.com/hpcc-systems/hpcc-js-wasm")
     ;
 const argv = await myYargs.argv;
+const isDevelopment = argv.mode === "development";
+const isProduction = !isDevelopment;
+const isWatch = argv.watch;
 
+//  plugins  ---
 const excludeSourceMapPlugin = ({ filter }) => ({
-    name: 'excludeSourceMapPlugin',
+    name: "excludeSourceMapPlugin",
+
     setup(build) {
         build.onLoad({ filter }, (args) => {
             return {
                 contents:
-                    readFileSync(args.path, 'utf8') +
-                    '\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiJdLCJtYXBwaW5ncyI6IkEifQ==',
-                loader: 'default',
+                    readFileSync(args.path, "utf8") +
+                    "\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiJdLCJtYXBwaW5ncyI6IkEifQ==",
+                loader: "default",
             };
         });
     },
 });
 
+const esbuildProblemMatcherPlugin = ({ filter }) => ({
+    name: "esbuild-problem-matcher",
+
+    setup(build) {
+        build.onStart(() => {
+            console.log("[watch] build started");
+        });
+        build.onEnd((result) => {
+            result.errors.forEach(({ text, location }) => {
+                console.error(`✘ [ERROR] ${text}`);
+                console.error(`    ${location.file}:${location.line}:${location.column}:`);
+            });
+            console.log("[watch] build finished");
+        });
+    },
+});
+
+function rebuildNotify(config) {
+    return {
+        name: "rebuild-notify",
+
+        setup(build) {
+            build.onEnd(result => {
+                console.log(`Built ${config.outfile}`);
+            });
+        },
+    };
+}
+
+//  helpers  ---
 function build(config) {
-    argv.debug && console.log("Start:  ", config.entryPoints[0], config.outfile);
+    isDevelopment && console.log("Start:  ", config.entryPoints[0], config.outfile);
     return esbuild.build({
         ...config,
         sourcemap: "linked",
         plugins: [
-            ...config.plugins ?? [],
-            excludeSourceMapPlugin({ filter: /node_modules/ }),
+            ...(config.plugins ?? []),
         ]
     }).then(() => {
-        argv.debug && console.log("Stop:   ", config.entryPoints[0], config.outfile);
+        isDevelopment && console.log("Stop:   ", config.entryPoints[0], config.outfile);
     });
 }
 
-function watch(config) {
+async function watch(config) {
+    await esbuild.build(config);
     return esbuild.context({
         ...config,
         sourcemap: "linked",
         plugins: [
-            ...config.plugins ?? [],
-            excludeSourceMapPlugin({ filter: /node_modules/ }),
-            {
-                name: "rebuild-notify",
-                setup(build) {
-                    build.onEnd(result => {
-                        console.log(`Built ${config.outfile}`);
-                    });
-                },
-            }
+            ...(config.plugins ?? []),
+            rebuildNotify(config),
         ]
     }).then(ctx => {
         return ctx.watch();
     });
 }
 
-function browserTpl(input, umdOutput, esOutput, globalName = undefined, external = []) {
-    const entryPoints = [input + ".js"];
-    const promises = [];
-    promises.push((argv.watch ? watch : build)({
-        entryPoints,
-        outfile: esOutput + ".js",
+function buildWatch(config) {
+    return isWatch ? watch(config) : build(config);
+}
+
+function browserTpl(input, output, format, globalName = "", external = []) {
+    return buildWatch({
+        entryPoints: [input],
+        outfile: `${output}.${format === "esm" ? "js" : "umd.js"}`,
         platform: "browser",
-        format: "esm",
+        target: "es2022",
+        format,
+        globalName,
         bundle: true,
-        minify: !argv.debug,
-        external
-    }));
-    if (globalName) {
-        promises.push((argv.watch ? watch : build)({
-            entryPoints,
-            outfile: umdOutput + ".js",
-            platform: "browser",
-            format: "umd",
-            globalName,
-            bundle: true,
-            minify: !argv.debug,
-            external,
-            plugins: [umdWrapper()]
-        }));
-    }
-    return Promise.all(promises);
+        minify: isProduction,
+        external,
+        plugins: format === "umd" ? [umdWrapper()] : []
+    });
 }
 
-function nodeEsm(input, esOutput, external = [], extension = ".js") {
-    const entryPoints = [input + ".js"];
-    return (argv.watch ? watch : build)({
-        entryPoints,
-        outfile: esOutput + extension,
+function browserBoth(input, output, globalName = undefined, external = []) {
+    return Promise.all([
+        browserTpl(input, output, "esm", globalName, external),
+        browserTpl(input, output, "umd", globalName, external)
+    ]);
+}
+
+function nodeTpl(input, output, format, external = []) {
+    return buildWatch({
+        entryPoints: [input],
+        outfile: `${output}.${format === "esm" ? NODE_MJS : NODE_CJS}`,
         platform: "node",
-        format: "esm",
+        target: "node20",
+        format,
         bundle: true,
-        minify: !argv.debug,
+        minify: isProduction,
         external
     });
 }
 
-function nodeCjs(input, esOutput, external = []) {
-    const entryPoints = [input + ".js"];
-    return (argv.watch ? watch : build)({
-        entryPoints,
-        outfile: esOutput + ".cjs",
-        platform: "node",
-        format: "cjs",
-        bundle: true,
-        minify: !argv.debug,
-        external
-    });
-}
-
-function nodeTpl(input, esOutput, external = []) {
+function nodeBoth(input, output, external = []) {
     return Promise.all([
-        nodeEsm(input, esOutput, external),
-        nodeCjs(input, esOutput, external)
+        nodeTpl(input, output, "esm", external),
+        nodeTpl(input, output, "cjs", external)
     ]);
 }
 
-function bothTpl(input, umdOutput, esOutput, globalName = undefined, external = []) {
+function bothTpl(input, output, globalName = undefined, external = []) {
     return Promise.all([
-        browserTpl(input, umdOutput, esOutput, globalName, external),
-        nodeCjs(input, esOutput, external)
+        browserBoth(input, output, globalName, external),
+        nodeTpl(input, output, "cjs", external)
     ]);
 }
 
+//  config  ---
 await Promise.all([
-    bothTpl("lib-esm/base91", "dist/base91.umd", "dist/base91", "hpccjs_wasm_base91"),
-    bothTpl("lib-esm/duckdb", "dist/duckdb.umd", "dist/duckdb", "hpccjs_wasm_duckdb"),
-    bothTpl("lib-esm/graphviz", "dist/graphviz.umd", "dist/graphviz", "hpccjs_wasm_graphviz"),
-    bothTpl("lib-esm/expat", "dist/expat.umd", "dist/expat", "hpccjs_wasm_expat"),
-    bothTpl("lib-esm/zstd", "dist/zstd.umd", "dist/zstd", "hpccjs_wasm_zstd")
+    bothTpl("src-ts/base91.ts", "dist/base91", "hpccjs_wasm_base91"),
+    bothTpl("src-ts/duckdb.ts", "dist/duckdb", "hpccjs_wasm_duckdb"),
+    bothTpl("src-ts/graphviz.ts", "dist/graphviz", "hpccjs_wasm_graphviz"),
+    bothTpl("src-ts/expat.ts", "dist/expat", "hpccjs_wasm_expat"),
+    bothTpl("src-ts/zstd.ts", "dist/zstd", "hpccjs_wasm_zstd")
 ]);
-await bothTpl("lib-esm/index", "dist/index.umd", "dist/index", "hpccjs_wasm", ["./base91.js", "./duckdb.js", "./expat.js", "./graphviz.js", "./zstd.js"]);
+await bothTpl("src-ts/index.ts", "dist/index", "hpccjs_wasm", ["./base91.js", "./duckdb.js", "./expat.js", "./graphviz.js", "./zstd.js"]);
 
-browserTpl("lib-esm/__tests__/index-browser", "dist-test/index.umd", "dist-test/index", "hpccjs_wasm_test");
-browserTpl("lib-esm/__tests__/worker-browser", "dist-test/worker.umd", "dist-test/worker", "hpccjs_wasm_test_worker");
-nodeTpl("lib-esm/__tests__/index-node", "dist-test/index.node");
-nodeTpl("lib-esm/__tests__/worker-node", "dist-test/worker.node");
+browserBoth("src-ts/__tests__/index-browser.ts", "dist-test/index", "hpccjs_wasm_test");
+browserBoth("src-ts/__tests__/worker-browser.ts", "dist-test/worker", "hpccjs_wasm_test_worker");
+nodeBoth("src-ts/__tests__/index-node.ts", "dist-test/index.node");
+nodeBoth("src-ts/__tests__/worker-node.ts", "dist-test/worker.node");
 
-nodeEsm("lib-esm/__bin__/dot-wasm", "bin/dot-wasm", ["@hpcc-js/wasm/graphviz"], ".js");
+nodeTpl("src-ts/__bin__/dot-wasm.ts", "bin/dot-wasm", "esm", ["@hpcc-js/wasm/graphviz"]);

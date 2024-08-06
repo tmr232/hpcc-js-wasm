@@ -33,7 +33,7 @@ describe("graphviz", function () {
         let graphviz = await Graphviz.load();
         let v = graphviz.version();
         expect(v).to.be.a.string;
-        expect(v).to.not.be.empty;
+        expect(v).to.equal("12.0.0");
         console.log("graphviz version: " + v);
         Graphviz.unload();
 
@@ -243,7 +243,7 @@ describe("bad dot", function () {
         expect(svg).to.be.a("string");
         expect(svg).to.not.be.empty;
         try {
-            const svg = graphviz.dot(badDot, "svg");
+            graphviz.dot(badDot, "svg");
             expect(true).to.be.false;
         } catch (e: any) {
             expect(typeof e.message).to.equal("string");
@@ -284,7 +284,7 @@ describe("options", async function () {
     });
 });
 
-const stripWhitespaces = str => str.replace(/[\r\n\t\s]+/g, "");
+const stripWhitespaces = (str: string) => str.replace(/[\r\n\t\s]+/g, "");
 
 describe("acyclic", async function () {
     it("simple", async function () {
@@ -343,7 +343,7 @@ digraph {
     it("syntax error", async function () {
         const graphviz = await Graphviz.load();
         try {
-            const retVal = graphviz.acyclic(badDot);
+            graphviz.acyclic(badDot);
             expect(true).to.be.false;
         } catch (e: any) {
             expect(typeof e.message).to.equal("string");
@@ -403,7 +403,7 @@ digraph {
     it("syntax error", async function () {
         const graphviz = await Graphviz.load();
         try {
-            const xxx = graphviz.tred(badDot);
+            graphviz.tred(badDot);
             expect(true).to.be.false;
         } catch (e: any) {
             expect(typeof e.message).to.equal("string");

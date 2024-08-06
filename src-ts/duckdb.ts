@@ -1,7 +1,7 @@
 // @ts-ignore
-import { loadWasm, unloadWasm } from "./duckdb-eh.wasm.js";
+import { loadWasm, unloadWasm } from "../build/duckdb-eh.wasm.js";
 // @ts-ignore
-import { loadWasm as loadWasmWorker, unloadWasm as unloadWasmWorker } from "./duckdb-browser-eh.worker.js";
+import { loadWasm as loadWasmWorker, unloadWasm as unloadWasmWorker } from "../build/duckdb-browser-eh.worker.js";
 import { AsyncDuckDB, ConsoleLogger } from "@duckdb/duckdb-wasm";
 
 /**

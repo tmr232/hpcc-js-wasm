@@ -1,21 +1,6 @@
 import { expect } from "chai";
 import { Attributes, Expat, StackParser } from "@hpcc-js/wasm/expat";
 
-class Cat {
-
-    _groupID: string;
-    _keywords: string[];
-
-    constructor(groupID: string) {
-        this._groupID = groupID;
-        this._keywords = [];
-    }
-
-    appendKeyword(keyword: string) {
-        this._keywords.push(keyword);
-    }
-}
-
 class KeywordParser extends StackParser {
 
     currCat: any;
@@ -51,7 +36,7 @@ describe("expat", function () {
         let expat = await Expat.load();
         let v = await expat.version();
         expect(v).to.be.a.string;
-        expect(v).to.not.be.empty;
+        expect(v).to.equal("expat_2.6.2");
         console.log("expat version: " + v);
         Expat.unload();
 

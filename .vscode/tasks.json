@@ -5,8 +5,8 @@
     "tasks": [
         {
             "type": "npm",
-            "label": "Compile Watch",
-            "script": "compile-watch",
+            "label": "Compile Types Watch",
+            "script": "compile-types-watch",
             "problemMatcher": [
                 "$tsc-watch"
             ],
@@ -16,8 +16,8 @@
         },
         {
             "type": "npm",
-            "label": "Bundle Watch",
-            "script": "bundle-watch",
+            "label": "Compile TypeScript Watch",
+            "script": "compile-ts-watch",
             "problemMatcher": [],
             "presentation": {
                 "group": "group-build"
@@ -35,8 +35,8 @@
         {
             "label": "build",
             "dependsOn": [
-                "Compile Watch",
-                "Bundle Watch",
+                "Compile Types Watch",
+                "Compile TypeScript Watch",
                 "Web Server"
             ],
             "group": {

@@ -243,7 +243,7 @@ try {
 }
 `;
         const content = argv.nw ? `\
-import { extract } from "./extract.js";
+import { extract } from "../src-ts/extract.ts";
 
 const blobStr = '${str}';
 
@@ -258,7 +258,7 @@ export function loadWasm() {
 export function unloadWasm() {
 }
 `: `\
-import { extract } from "./extract.js";
+import { extract } from "../src-ts/extract.ts";
 import wrapper from "../${wasmPath.replace(".wasm", ".js")}";
 
 const blobStr = '${str}';

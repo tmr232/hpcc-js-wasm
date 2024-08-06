@@ -1,5 +1,5 @@
 // @ts-ignore
-import { loadWasm, unloadWasm } from "./base91lib.wasm.js";
+import { loadWasm, unloadWasm } from "../build/base91lib.wasm.js";
 import { WasmLibrary } from "./wasm-library.js";
 
 //  Ref:  http://base91.sourceforge.net/#a5
