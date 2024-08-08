@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.18.2](https://github.com/hpcc-systems/hpcc-js-wasm/compare/v2.18.1...v2.18.2) (2024-08-08)
+
+
+### Bug Fixes
+
+*  Internal source maps can cause warnings in hosting packages ([1a113ae](https://github.com/hpcc-systems/hpcc-js-wasm/commit/1a113ae0aa86377ce56b16caebd576e1712384b9))
+
 ### [2.18.1](https://github.com/hpcc-systems/hpcc-js-wasm/compare/v2.18.0...v2.18.1) (2024-08-06)
 
 
