@@ -83,7 +83,7 @@ function build(config) {
     isDevelopment && console.log("Start:  ", config.entryPoints[0], config.outfile);
     return esbuild.build({
         ...config,
-        sourcemap: "linked",
+        sourcemap: "external",
         plugins: [
             ...(config.plugins ?? []),
         ]
