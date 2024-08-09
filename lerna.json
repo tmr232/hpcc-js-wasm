@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "useNx": true,
+  "command": {
+    "version": {
+      "conventionalCommits": true,
+      "gitRemote": "upstream",
+      "ignoreChanges": [
+        "__package__.ts",
+        "*.md"
+      ],
+      "allowBranch": "trunk"
+    },
+    "publish": {}
+  },
+  "version": "independent"
+}
