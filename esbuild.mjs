@@ -1,6 +1,8 @@
 import * as process from "process";
 import { readFileSync } from "fs";
 import * as esbuild from "esbuild";
+import { umdWrapper } from "esbuild-plugin-umd-wrapper";
+import { rebuildLogger, sfxWasm } from "@hpcc-js/esbuild-plugins";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
@@ -33,59 +35,15 @@ const isDevelopment = argv.mode === "development";
 const isProduction = !isDevelopment;
 const isWatch = argv.watch;
 
-//  plugins  ---
-const excludeSourceMapPlugin = ({ filter }) => ({
-    name: "excludeSourceMapPlugin",
-
-    setup(build) {
-        build.onLoad({ filter }, (args) => {
-            return {
-                contents:
-                    readFileSync(args.path, "utf8") +
-                    "\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiJdLCJtYXBwaW5ncyI6IkEifQ==",
-                loader: "default",
-            };
-        });
-    },
-});
-
-const esbuildProblemMatcherPlugin = ({ filter }) => ({
-    name: "esbuild-problem-matcher",
-
-    setup(build) {
-        build.onStart(() => {
-            console.log("[watch] build started");
-        });
-        build.onEnd((result) => {
-            result.errors.forEach(({ text, location }) => {
-                console.error(`✘ [ERROR] ${text}`);
-                console.error(`    ${location.file}:${location.line}:${location.column}:`);
-            });
-            console.log("[watch] build finished");
-        });
-    },
-});
-
-function rebuildNotify(config) {
-    return {
-        name: "rebuild-notify",
-
-        setup(build) {
-            build.onEnd(result => {
-                console.log(`Built ${config.outfile}`);
-            });
-        },
-    };
-}
-
 //  helpers  ---
 function build(config) {
     isDevelopment && console.log("Start:  ", config.entryPoints[0], config.outfile);
     return esbuild.build({
         ...config,
-        sourcemap: "external",
+        sourcemap: "linked",
         plugins: [
             ...(config.plugins ?? []),
+            sfxWasm()
         ]
     }).then(() => {
         isDevelopment && console.log("Stop:   ", config.entryPoints[0], config.outfile);
@@ -93,13 +51,14 @@ function build(config) {
 }
 
 async function watch(config) {
-    await esbuild.build(config);
+    await build(config);
     return esbuild.context({
         ...config,
-        sourcemap: "linked",
+        sourcemap: "external",
         plugins: [
             ...(config.plugins ?? []),
-            rebuildNotify(config),
+            rebuildLogger(config),
+            sfxWasm()
         ]
     }).then(ctx => {
         return ctx.watch();
@@ -120,14 +79,15 @@ function browserTpl(input, output, format, globalName = "", external = []) {
         globalName,
         bundle: true,
         minify: isProduction,
-        external
+        external,
+        plugins: format === "umd" ? [umdWrapper()] : []
     });
 }
 
 function browserBoth(input, output, globalName = undefined, external = []) {
     return Promise.all([
         browserTpl(input, output, "esm", globalName, external),
-        browserTpl(input, output, "iife", globalName, external)
+        browserTpl(input, output, "umd", globalName, external)
     ]);
 }
 
