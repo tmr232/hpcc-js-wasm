@@ -13,7 +13,7 @@ let g_zstd: Promise<Zstd>;
  * See [Zstandard](https://facebook.github.io/zstd/) for more details.
  * 
  * ```ts
- * import { Zstd } from "@hpcc-js/wasm/zstd";
+ * import { Zstd } from "@hpcc-js/wasm-zstd";
  * 
  * const zstd = await Zstd.load();
  * 

@@ -12,7 +12,7 @@ let g_base91: Promise<Base91>;
  * See [Base91](https://base91.sourceforge.net/) for more details.
  *
  * ```ts
- * import { Base91 } from "@hpcc-js/wasm/base91";
+ * import { Base91 } from "@hpcc-js/wasm-base91";
  * 
  * const base91 = await Base91.load();
  * 

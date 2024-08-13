@@ -34,11 +34,11 @@ export default {
             {
                 text: 'WASM API',
                 items: [
-                    { text: 'Base91', link: '/base91/classes/Base91' },
-                    { text: 'DuckDB', link: '/duckdb/classes/DuckDB' },
-                    { text: 'Expat', link: '/expat/classes/Expat' },
-                    { text: 'Graphviz', link: '/graphviz/classes/Graphviz' },
-                    { text: 'Zstd', link: '/zstd/classes/Zstd' },
+                    { text: 'Base91', link: '/base91/src/base91/classes/Base91' },
+                    { text: 'DuckDB', link: '/duckdb/src/duckdb/classes/DuckDB' },
+                    { text: 'Expat', link: '/expat/src/expat/classes/Expat' },
+                    { text: 'Graphviz', link: '/graphviz/src/graphviz/classes/Graphviz' },
+                    { text: 'Zstd', link: '/zstd/src/zstd/classes/Zstd' },
                 ]
             }
 

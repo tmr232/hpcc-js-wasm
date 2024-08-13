@@ -1,11 +1,11 @@
 {
     "entryPoints": [
-        "./src-ts/base91.ts",
-        "./src-ts/duckdb.ts",
-        "./src-ts/expat.ts",
-        "./src-ts/graphviz.ts",
-        "./src-ts/wasm-library.ts",
-        "./src-ts/zstd.ts",
+        "./packages/base91/src/base91.ts",
+        "./packages/base91/src/wasm-library.ts",
+        "./packages/duckdb/src/duckdb.ts",
+        "./packages/expat/src/expat.ts",
+        "./packages/graphviz/src/graphviz.ts",
+        "./packages/zstd/src/zstd.ts",
     ],
     "out": "./docs",
     "readme": "none",

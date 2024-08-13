@@ -14,7 +14,7 @@ export type Engine = "circo" | "dot" | "fdp" | "sfdp" | "neato" | "osage" | "pat
 /**
  * Example:  Passing a web hosted Image to GraphViz:
  * ```ts
- * import { Graphviz } from "@hpcc-js/wasm/graphviz";
+ * import { Graphviz } from "@hpcc-js/wasm-graphviz";
  * 
  * const graphviz = await Graphviz.load();
  * const svg = graphviz.layout('digraph { a[image="https://.../image.png"]; }', "svg", "dot", { 

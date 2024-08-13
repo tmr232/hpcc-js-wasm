@@ -9,10 +9,11 @@ dist/
 dist-test/
 /docs/.vitepress/cache
 /docs/.vitepress/dist
-/docs/classes
-/docs/interfaces
-/docs/modules
-/docs/.nojekyll
+/docs/base91
+/docs/duckdb
+/docs/expat
+/docs/graphviz
+/docs/zstd
 /docs/README.md
 /emsdk*
 /lib-*

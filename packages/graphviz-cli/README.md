@@ -3,6 +3,7 @@
 This package provides a command line interface for the `@hpcc-js/wasm-graphviz` package.
 
 To call `@hpcc-js/wasm-graphviz-cli` without installing:
+
 ```sh
 npx @hpcc-js/wasm-graphviz-cli [options] fileOrDot
 ```

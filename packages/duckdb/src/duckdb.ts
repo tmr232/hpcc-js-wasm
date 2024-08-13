@@ -8,7 +8,7 @@ import { AsyncDuckDB, ConsoleLogger } from "@duckdb/duckdb-wasm";
  * See [DuckDB](https://github.com/duckdb/duckdb) for more details.
  *
  * ```ts
- * import { DuckDB } from "@hpcc-js/wasm/duckdb";
+ * import { DuckDB } from "@hpcc-js/wasm-duckdb";
  * 
  * let duckdb = await DuckDB.load();
  * const c = await duckdb.db.connect();

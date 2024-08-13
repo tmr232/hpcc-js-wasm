@@ -26,7 +26,7 @@ function parseAttrs(attrs: string): Attributes {
  * See [libexpat.github.io](https://libexpat.github.io/) for c++ details.
  * 
  * ```ts
- * import { Expat } from "@hpcc-js/wasm/expat";
+ * import { Expat } from "@hpcc-js/wasm-expat";
  * 
  * const expat = await Expat.load();
  * 
