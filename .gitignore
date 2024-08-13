@@ -13,6 +13,12 @@
 /docs/modules
 /docs/.nojekyll
 /docs/README.md
+/docs/base91
+/docs/duckdb
+/docs/expat
+/docs/graphviz
+/docs/zstd
+/packages
 /emsdk*
 /lib-*
 /node_modules
