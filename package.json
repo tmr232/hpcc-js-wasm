@@ -61,7 +61,7 @@
     "test": "lerna run test",
     "coverage": "c8 npm run test-node",
     "coverage-report": "c8 report --reporter=lcov",
-    "publish": "lerna publish --no-private from-package",
+    "publish": "lerna publish from-package -y",
     "purge-jsdelivr": "node ./utils/purge-jsdelivr.js",
     "update-root": "npx -y npm-check-updates -u -t minor",
     "update": "npm run update-root && lerna run update",
