@@ -38,6 +38,7 @@ export default {
                     { text: 'DuckDB', link: '/duckdb/src/duckdb/classes/DuckDB' },
                     { text: 'Expat', link: '/expat/src/expat/classes/Expat' },
                     { text: 'Graphviz', link: '/graphviz/src/graphviz/classes/Graphviz' },
+                    { text: 'Llama', link: '/llama/src/llama/classes/Llama' },
                     { text: 'Zstd', link: '/zstd/src/zstd/classes/Zstd' },
                 ]
             }

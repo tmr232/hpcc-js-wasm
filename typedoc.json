@@ -5,6 +5,7 @@
         "./packages/duckdb/src/duckdb.ts",
         "./packages/expat/src/expat.ts",
         "./packages/graphviz/src/graphviz.ts",
+        "./packages/llama/src/llama.ts",
         "./packages/zstd/src/zstd.ts",
     ],
     "out": "./docs",
