@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/hpcc-systems/hpcc-js-wasm/compare/wasm-zstd-v1.1.1...wasm-zstd-v1.2.0) (2024-08-30)
+
+
+### Features
+
+* Add llama.cpp web assembly support ([5602a88](https://github.com/hpcc-systems/hpcc-js-wasm/commit/5602a8889df432345d1370ce4dba919262ce6c34))
+
 ## [1.1.1](https://github.com/hpcc-systems/hpcc-js-wasm/compare/wasm-zstd-v1.1.0...wasm-zstd-v1.1.1) (2024-08-15)
 
 
