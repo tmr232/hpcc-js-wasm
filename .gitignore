@@ -1,6 +1,7 @@
 .nyc_output/
-/.vscode/c_cpp_properties.json
-/.vscode/ipch
+.vscode/c_cpp_properties.json
+.vscode/ipch
+.vscode/settings.json
 .nx/
 bin/
 build/
@@ -18,6 +19,7 @@ dist-test/
 /emsdk*
 /lib-*
 node_modules/
+/packages/llama/docs
 /rust
 /third-party
 /src-ts/*.wasm.ts

@@ -35,6 +35,9 @@ features:
   - title: GraphViz
     details: The Graphviz layout algorithms take descriptions of graphs in a simple text language, and make diagrams in useful formats, such as images and SVG for web pages or display in an interactive graph browser.
     link: /graphviz/src/graphviz/classes/Graphviz
+  - title: Llama
+    details: Inference of Meta's LLaMA model (and others) in pure C/C++.
+    link: /llama/src/llama/classes/Llama
   - title: Zstd
     details:  Zstandard is a fast compression algorithm, providing high compression ratios and is backed by an extremely fast decoder.
     link: /zstd/src/zstd/classes/Zstd

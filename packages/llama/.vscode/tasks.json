@@ -25,22 +25,11 @@
         },
         {
             "type": "npm",
-            "label": "build-cpp",
-            "script": "build-cpp",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "presentation": {
-                "group": "group-build"
-            }
-        },
-        {
-            "type": "npm",
             "label": "build-cpp-watch",
             "script": "build-cpp-watch",
-            "dependsOn": [
-                "build-cpp"
-            ],
+            "options": {
+                "cwd": "${workspaceFolder}/../.."
+            },
             "problemMatcher": {
                 "owner": "cpp",
                 "fileLocation": [

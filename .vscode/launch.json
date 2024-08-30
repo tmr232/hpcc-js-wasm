@@ -5,6 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "test-node",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "runtimeArgs": [
+                "run-script",
+                "test-node"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/packages/**/*.js",
+                "${workspaceFolder}/packages/**/*.c",
+                "!**/node_modules/**"
+            ],
+        },
+        {
             "name": "index-browser",
             "type": "msedge",
             "request": "launch",
@@ -74,24 +93,6 @@
                 "webpack:///./*": "${workspaceRoot}/*",
                 "webpack:///*": "/*"
             },
-        },
-        {
-            "name": "test-node",
-            "type": "node",
-            "request": "launch",
-            "runtimeArgs": [
-                "run-script",
-                "test-node"
-            ],
-            "runtimeExecutable": "npm",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "outFiles": [
-                "${workspaceFolder}/**/*.js",
-                "${workspaceFolder}/**/*.c",
-                "!**/node_modules/**"
-            ],
         },
         {
             "name": "esbuild",

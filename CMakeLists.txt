@@ -8,7 +8,9 @@ set(CMAKE_INSTALL_PREFIX "..")
 set(VCPKG_INCLUDE_DIR ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include)
 
 # See:  https://github.com/emscripten-core/emscripten/blob/main/src/settings.js
-set(EM_CPP_FLAGS "")
+set(EM_CPP_FLAGS 
+    "-flto"
+)
 
 set(EM_LINK_FLAGS 
     "-sASSERTIONS=0"
@@ -35,11 +37,12 @@ set(EM_LINK_FLAGS
     "-sUSE_GLFW=0"
     "-sALLOW_UNIMPLEMENTED_SYSCALLS=1"
     "-sINCOMING_MODULE_JS_API=\"['wasmBinary']\""
+    "--no-entry"
     "--pre-js ${CMAKE_CURRENT_SOURCE_DIR}/src-cpp/src/pre.js"
     "--post-js ${CMAKE_CURRENT_SOURCE_DIR}/src-cpp/src/post.js"
 )
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
     set(EM_LINK_FLAGS 
         ${EM_LINK_FLAGS}
         "-sUSE_ES6_IMPORT_META=1"
@@ -79,8 +82,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(PACK_MODE "-d")
 endif ()
 
-add_subdirectory(src-cpp)
 add_subdirectory(packages/base91/src-cpp)
 add_subdirectory(packages/expat/src-cpp)
 add_subdirectory(packages/graphviz/src-cpp)
+add_subdirectory(packages/llama/src-cpp)
 add_subdirectory(packages/zstd/src-cpp)
