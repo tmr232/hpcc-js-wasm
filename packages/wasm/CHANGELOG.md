@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.21.0](https://github.com/hpcc-systems/hpcc-js-wasm/compare/wasm-v2.20.0...wasm-v2.21.0) (2024-08-30)
+
+
+### Features
+
+* Add llama.cpp web assembly support ([5602a88](https://github.com/hpcc-systems/hpcc-js-wasm/commit/5602a8889df432345d1370ce4dba919262ce6c34))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @hpcc-js/wasm-base91 bumped from 1.2.0 to 1.3.0
+    * @hpcc-js/wasm-duckdb bumped from 1.2.0 to 1.3.0
+    * @hpcc-js/wasm-expat bumped from 1.2.0 to 1.3.0
+    * @hpcc-js/wasm-graphviz bumped from 1.2.0 to 1.3.0
+    * @hpcc-js/wasm-zstd bumped from 1.1.1 to 1.2.0
+
 ## [2.20.0](https://github.com/hpcc-systems/hpcc-js-wasm/compare/wasm-v2.19.0...wasm-v2.20.0) (2024-08-15)
 
 

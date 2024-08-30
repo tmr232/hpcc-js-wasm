@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/hpcc-systems/hpcc-js-wasm/compare/wasm-root-v3.1.1...wasm-root-v3.2.0) (2024-08-30)
+
+
+### Features
+
+* Add llama.cpp web assembly support ([5602a88](https://github.com/hpcc-systems/hpcc-js-wasm/commit/5602a8889df432345d1370ce4dba919262ce6c34))
+
+
+### Bug Fixes
+
+* Add -y option for publish ([7cc8bd6](https://github.com/hpcc-systems/hpcc-js-wasm/commit/7cc8bd60ede5bcbb00a193cd398c23f547e64a8f))
+* Docs not building and deploying ([2d5e89c](https://github.com/hpcc-systems/hpcc-js-wasm/commit/2d5e89c8163c87a4441583664d7f8587d49708bd))
+
 ## [3.1.1](https://github.com/hpcc-systems/hpcc-js-wasm/compare/wasm-root-v3.1.0...wasm-root-v3.1.1) (2024-08-15)
 
 
