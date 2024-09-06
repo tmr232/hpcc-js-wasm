@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.1](https://github.com/hpcc-systems/hpcc-js-wasm/compare/wasm-root-v3.2.0...wasm-root-v3.2.1) (2024-09-06)
+
+
+### Bug Fixes
+
+* Add missing DuckDB to wasm package ([7f45a67](https://github.com/hpcc-systems/hpcc-js-wasm/commit/7f45a675d97c31c4b3cd3adca912c24d114c9019)), closes [#257](https://github.com/hpcc-systems/hpcc-js-wasm/issues/257)
+
 ## [3.2.0](https://github.com/hpcc-systems/hpcc-js-wasm/compare/wasm-root-v3.1.1...wasm-root-v3.2.0) (2024-08-30)
 
 

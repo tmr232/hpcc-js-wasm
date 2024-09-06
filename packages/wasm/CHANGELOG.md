@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.21.1](https://github.com/hpcc-systems/hpcc-js-wasm/compare/wasm-v2.21.0...wasm-v2.21.1) (2024-09-06)
+
+
+### Bug Fixes
+
+* Add missing DuckDB to wasm package ([7f45a67](https://github.com/hpcc-systems/hpcc-js-wasm/commit/7f45a675d97c31c4b3cd3adca912c24d114c9019)), closes [#257](https://github.com/hpcc-systems/hpcc-js-wasm/issues/257)
+
 ## [2.21.0](https://github.com/hpcc-systems/hpcc-js-wasm/compare/wasm-v2.20.0...wasm-v2.21.0) (2024-08-30)
 
 
