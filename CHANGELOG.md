@@ -1,3 +1,9 @@
+# Mono Repo Note:
+
+_This repository was converted to a mono repo as off `@hpcc-js/wasm v2.19.0` and the @hpcc-js/wasm [changelog](packages/wasm/CHANGELOG.md) is now maintained in the `packages/wasm` folder, see:  [packages/wasm/CHANGELOG.md](packages/wasm/CHANGELOG.md)._
+
+_This changelog is now a summary of all changes across all packages in the mono repo under the private name of `@hpcc-js/wasm-root`._
+
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
