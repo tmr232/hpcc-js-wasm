@@ -18,9 +18,9 @@
   ],
   "scripts": {
     "clean": "rimraf ./build ./dist ./dist-test ./types",
-    "pack-duckdb-eh-worker-node": "npx -y mkdirp build && node ./utils/sfx-wasm.js ../../node_modules/@duckdb/duckdb-wasm/dist/duckdb-node-eh.worker.cjs > ./build/duckdb-node-eh.worker.ts",
-    "pack-duckdb-eh-worker": "npx -y mkdirp build && node ./utils/sfx-wasm.js ../../node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js > ./build/duckdb-browser-eh.worker.ts",
-    "pack-duckdb-eh": "npx -y mkdirp build && node ./utils/sfx-wasm.js ../../node_modules/@duckdb/duckdb-wasm/dist/duckdb-eh.wasm > ./build/duckdb-eh.wasm.ts",
+    "pack-duckdb-eh-worker-node": "npx -y mkdirp build && node ./utils/sfx-wasm.js ./node_modules/@duckdb/duckdb-wasm/dist/duckdb-node-eh.worker.cjs > ./build/duckdb-node-eh.worker.ts",
+    "pack-duckdb-eh-worker": "npx -y mkdirp build && node ./utils/sfx-wasm.js ./node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js > ./build/duckdb-browser-eh.worker.ts",
+    "pack-duckdb-eh": "npx -y mkdirp build && node ./utils/sfx-wasm.js ./node_modules/@duckdb/duckdb-wasm/dist/duckdb-eh.wasm > ./build/duckdb-eh.wasm.ts",
     "pack-duckdb": "run-p pack-duckdb-eh pack-duckdb-eh-worker pack-duckdb-eh-worker-node",
     "build-types": "tsc --project tsconfig.json --emitDeclarationOnly",
     "build-types-watch": "npm run build-types -- --watch",
@@ -40,16 +40,14 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@duckdb/duckdb-wasm": "1.28.1-dev99.0"
+    "@duckdb/duckdb-wasm": "1.28.1-dev106.0"
   },
   "keywords": [
-    "graphviz",
+    "DuckDB",
     "typescript",
     "webassembly",
     "wasm",
-    "dot",
-    "neato",
-    "twopi"
+    "sql"
   ],
   "author": "hpcc-systems",
   "repository": {

@@ -35,10 +35,11 @@ add_executable(llamalib
     main.cpp
     embedding.cpp
     util.cpp
+    ${Llama_DIR}/common/arg.cpp
     ${Llama_DIR}/common/common.cpp
     ${Llama_DIR}/common/sampling.cpp
     ${Llama_DIR}/common/console.cpp
-    ${Llama_DIR}/common/grammar-parser.cpp
+    # ${Llama_DIR}/common/grammar-parser.cpp
     ${Llama_DIR}/common/json-schema-to-grammar.cpp
     ${Llama_DIR}/common/build-info.cpp
 )
