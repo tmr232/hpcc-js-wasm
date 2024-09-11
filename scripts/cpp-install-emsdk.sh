@@ -2,7 +2,7 @@
 
 # List of current vertsion can be found in https://github.com/emscripten-core/emsdk/tags  ---
 # UPDATE README.md
-VERSION=3.1.64
+VERSION=3.1.66
 
 if [ ! -d "./emsdk" ] 
 then

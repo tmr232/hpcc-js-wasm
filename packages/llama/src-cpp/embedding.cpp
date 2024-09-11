@@ -1,5 +1,5 @@
 //  See: https://github.com/ggerganov/llama.cpp/blob/master/examples/embedding/embedding.cpp  ---
-
+#include "arg.h"
 #include "common.h"
 #include "llama.h"
 
@@ -100,9 +100,8 @@ namespace embedding
     {
         gpt_params params;
 
-        if (!gpt_params_parse(argc, argv, params))
+        if (!gpt_params_parse(argc, argv, params, LLAMA_EXAMPLE_EMBEDDING))
         {
-            gpt_params_print_usage(argc, argv, params);
             return 1;
         }
 
@@ -112,14 +111,7 @@ namespace embedding
 
         print_build_info();
 
-        if (params.seed == LLAMA_DEFAULT_SEED)
-        {
-            params.seed = time(NULL);
-        }
-
-        fprintf(stderr, "%s: seed  = %u\n", __func__, params.seed);
-
-        std::mt19937 rng(params.seed);
+        LOG_TEE("%s: seed = %u\n", __func__, params.sparams.seed);
 
         llama_backend_init();
         llama_numa_init(params.numa);
@@ -394,8 +386,10 @@ namespace embedding
                 fprintf(stdout, "\n}\n");
         }
 
+        LOG_TEE("\n");
+        llama_perf_print(ctx, LLAMA_PERF_TYPE_CONTEXT);
+
         // clean up
-        llama_print_timings(ctx);
         llama_batch_free(batch);
         llama_free(ctx);
         llama_free_model(model);

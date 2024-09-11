@@ -36,8 +36,16 @@ set(ENABLE_GO AUTO CACHE STRING "Build Go language bindings")
 set_property(CACHE ENABLE_GO PROPERTY STRINGS AUTO ON OFF)
 set(INTGOSIZE AUTO CACHE STRING "Integer size for go, 32 or 64")
 set_property(CACHE INTGOSIZE PROPERTY STRINGS AUTO 32 64)
+set(ENABLE_GUILE AUTO CACHE STRING "Build Guile language bindings")
+set_property(CACHE ENABLE_GUILE PROPERTY STRINGS AUTO ON OFF)
+set(ENABLE_JAVA AUTO CACHE STRING "Build Java language bindings")
+set_property(CACHE ENABLE_JAVA PROPERTY STRINGS AUTO ON OFF)
 set(ENABLE_JAVASCRIPT AUTO CACHE STRING "Build Javascript language bindings")
 set_property(CACHE ENABLE_JAVASCRIPT PROPERTY STRINGS AUTO ON OFF)
+set(ENABLE_LUA AUTO CACHE STRING "Build Lua language bindings")
+set_property(CACHE ENABLE_LUA PROPERTY STRINGS AUTO ON OFF)
+set(ENABLE_PERL AUTO CACHE STRING "Build Perl language bindings")
+set_property(CACHE ENABLE_PERL PROPERTY STRINGS AUTO ON OFF)
 option(GRAPHVIZ_CLI "Build command line tools" ON)
 
 if(WIN32)
@@ -242,6 +250,10 @@ if(NOT WITH_ZLIB STREQUAL "OFF")
 endif()
 
 if(NOT ENABLE_TCL STREQUAL "OFF")
+  if(WIN32 AND NOT MINGW)
+    FIND_PROGRAM(TCL_RUNTIME_LIBRARY NAMES tcl86t.dll)
+    set(TCL_RUNTIME_LIBRARIES ${TCL_RUNTIME_LIBRARY})
+  endif()
   find_package(TCL)
   if(ENABLE_TCL STREQUAL "AUTO")
     if(TCL_FOUND)
@@ -263,7 +275,7 @@ if(NOT ENABLE_SWIG STREQUAL "OFF")
     cmake_policy(SET CMP0086 NEW)
   endif()
 
-  find_package(SWIG COMPONENTS csharp d go javascript)
+  find_package(SWIG COMPONENTS csharp d go guile java javascript lua perl5)
   if(ENABLE_SWIG STREQUAL "AUTO")
     if(SWIG_FOUND)
       message(STATUS "setting -DENABLE_SWIG=ON")
@@ -332,6 +344,40 @@ if(ENABLE_GO)
   endif()
 endif()
 
+if(NOT ENABLE_GUILE STREQUAL "OFF")
+  find_package(GUILE)
+  if(ENABLE_SWIG AND SWIG_guile_FOUND AND GUILE_FOUND)
+    if(ENABLE_GUILE STREQUAL "AUTO")
+      message(STATUS "setting -DENABLE_GUILE=ON")
+      set(ENABLE_GUILE ON)
+    endif()
+  elseif(ENABLE_GUILE STREQUAL "ON")
+    message(
+      FATAL_ERROR "-DENABLE_SWIG=ON must be set and Guile must be available to \
+                   use -DENABLE_GUILE=ON"
+    )
+  else()
+    message(STATUS "setting -DENABLE_GUILE=OFF")
+    set(ENABLE_GUILE OFF)
+  endif()
+endif()
+
+if(NOT ENABLE_JAVA STREQUAL "OFF")
+  find_package(JNI)
+  if(ENABLE_SWIG AND SWIG_java_FOUND AND JNI_FOUND)
+    if(ENABLE_JAVA STREQUAL "AUTO")
+      message(STATUS "setting -DENABLE_JAVA=ON")
+      set(ENABLE_JAVA ON)
+    endif()
+  elseif(ENABLE_JAVA STREQUAL "ON")
+    message(FATAL_ERROR "-DENABLE_SWIG=ON must be set and JNI must be \
+                         available to use -DENABLE_JAVA=ON")
+  else()
+    message(STATUS "setting -DENABLE_JAVA=OFF")
+    set(ENABLE_JAVA OFF)
+  endif()
+endif()
+
 if(NOT ENABLE_JAVASCRIPT STREQUAL "OFF")
   find_package(JAVASCRIPTCORE)
   if(ENABLE_SWIG AND SWIG_javascript_FOUND AND JAVASCRIPTCORE_FOUND)
@@ -347,6 +393,42 @@ if(NOT ENABLE_JAVASCRIPT STREQUAL "OFF")
   else()
     message(STATUS "setting -DENABLE_JAVASCRIPT=OFF")
     set(ENABLE_JAVASCRIPT OFF)
+  endif()
+endif()
+
+if(NOT ENABLE_LUA STREQUAL "OFF")
+  find_package(Lua)
+  if(ENABLE_SWIG AND SWIG_lua_FOUND AND LUA_FOUND)
+    if(ENABLE_LUA STREQUAL "AUTO")
+      message(STATUS "setting -DENABLE_LUA=ON")
+      set(ENABLE_LUA ON)
+    endif()
+  elseif(ENABLE_LUA STREQUAL "ON")
+    message(
+      FATAL_ERROR "-DENABLE_SWIG=ON must be set and Lua must be available to \
+                   use -DENABLE_LUA=ON"
+    )
+  else()
+    message(STATUS "setting -DENABLE_LUA=OFF")
+    set(ENABLE_LUA OFF)
+  endif()
+endif()
+
+if(NOT ENABLE_PERL STREQUAL "OFF")
+  find_package(PerlLibs)
+  if(ENABLE_SWIG AND SWIG_perl5_FOUND AND PERLLIBS_FOUND)
+    if(ENABLE_PERL STREQUAL "AUTO")
+      message(STATUS "setting -DENABLE_PERL=ON")
+      set(ENABLE_PERL ON)
+    endif()
+  elseif(ENABLE_PERL STREQUAL "ON")
+    message(
+      FATAL_ERROR "-DENABLE_SWIG=ON must be set and Perl libraries must be \
+                   available to use -DENABLE_PERL=ON"
+    )
+  else()
+    message(STATUS "setting -DENABLE_PERL=OFF")
+    set(ENABLE_PERL OFF)
   endif()
 endif()
 
@@ -548,7 +630,7 @@ target_include_directories(graphviz
 )
 
 install(
-  TARGETS common gvplugin_core gvplugin_dot_layout gvplugin_neato_layout ortho gvc cdt cgraph dotgen neatogen fdpgen sfdpgen twopigen circogen label osage patchwork pack sparse pathplan xdot vpsc
+  TARGETS common gvplugin_core gvplugin_dot_layout gvplugin_neato_layout ortho gvc cdt cgraph dotgen neatogen fdpgen sfdpgen twopigen circogen label osage patchwork pack sparse pathplan xdot util vpsc
   RUNTIME DESTINATION ${BINARY_INSTALL_DIR}
   LIBRARY DESTINATION ${LIBRARY_INSTALL_DIR}
   ARCHIVE DESTINATION ${LIBRARY_INSTALL_DIR}
