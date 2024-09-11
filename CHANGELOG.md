@@ -8,6 +8,13 @@ _This changelog is now a summary of all changes across all packages in the mono 
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/hpcc-systems/hpcc-js-wasm/compare/wasm-root-v3.2.1...wasm-root-v3.3.0) (2024-09-11)
+
+
+### Features
+
+* Bump Versions ([208783e](https://github.com/hpcc-systems/hpcc-js-wasm/commit/208783e61c86cd5f9c01931793c3334732bbaed0))
+
 ## [3.2.1](https://github.com/hpcc-systems/hpcc-js-wasm/compare/wasm-root-v3.2.0...wasm-root-v3.2.1) (2024-09-06)
 
 
